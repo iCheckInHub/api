@@ -1,0 +1,15 @@
+input OrderInput {
+    place_id: ID!
+    items: OrderItemInput!
+}
+
+input OrderItemInput {
+    connect: ID
+    create: [CreateOrderItemInput!]!
+}
+
+input CreateOrderItemInput {
+    service_id: ID!
+    quantity: Int!
+    optionIds: [ID!]
+}

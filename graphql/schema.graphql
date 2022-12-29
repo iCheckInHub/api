@@ -1,0 +1,213 @@
+"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
+scalar DateTime
+    @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+
+# "Indicates what fields are available at the top level of a query operation."
+# type Query {
+#     "Find a single user by an identifying attribute."
+#     user(
+#         "Search by primary key."
+#         id: ID @eq @rules(apply: ["prohibits:email", "required_without:email"])
+
+#         "Search by email address."
+#         email: String
+#             @eq
+#             @rules(apply: ["prohibits:id", "required_without:id", "email"])
+#     ): User @find
+
+#     "List multiple users."
+#     users(
+#         "Filters by name. Accepts SQL LIKE wildcards `%` and `_`."
+#         name: String @where(operator: "like")
+#     ): [User!]! @paginate(defaultCount: 10)
+# }
+
+"Account of a person who utilizes this application."
+type User {
+    "Unique primary key."
+    id: ID!
+
+    "Non-unique name."
+    name: String!
+
+    "Unique email address."
+    email: String
+
+    "The user's avatar."
+    avatar: String
+
+    "When the email was verified."
+    email_verified_at: DateTime
+
+    "When the account was created."
+    created_at: DateTime!
+
+    "When the account was last updated."
+    updated_at: DateTime!
+}
+
+type Place {
+    "Unique primary key."
+    id: ID!
+    "The place's name."
+    name: String!
+    "The place's description."
+    description: String!
+    "The place's image."
+    image: String!
+    "The place's cover image."
+    cover: String!
+    "The place's phone number."
+    phone: String!
+    "The place's opening hours."
+    hours: String!
+    "The place's address."
+    address: String!
+    "When the place was created."
+    created_at: DateTime!
+    "When the place was last updated."
+    updated_at: DateTime!
+
+    menus: [Menu!]! @hasMany
+}
+
+type Menu {
+    "Unique primary key."
+    id: ID!
+    "The menu's name."
+    name: String!
+    "The menu's description."
+    description: String
+    "The menu's image."
+    image: String
+    "When the menu was created."
+    created_at: DateTime!
+    "When the menu was last updated."
+    updated_at: DateTime!
+    "The menu's items."
+    items: [MenuItem!]! @hasMany(relation: "items")
+}
+
+type MenuItem {
+    "Unique primary key."
+    id: ID!
+    "The menu's name."
+    name: String!
+    "The menu's description."
+    description: String
+    "The submenu's image."
+    image: String
+    "When the menu was created."
+    created_at: DateTime!
+    "When the menu was last updated."
+    updated_at: DateTime!
+    "The menu's services."
+    services: [MenuService!]! @hasMany(relation: "services")
+}
+
+type MenuService {
+    "Unique primary key."
+    id: ID!
+    "The menu service's name."
+    name: String!
+    "The menu service's description."
+    description: String!
+    "The menu service's image."
+    image: String!
+    "The service's price."
+    price: Float!
+    "The service's duration."
+    duration: Int!
+    "The service is favorite."
+    top: Boolean!
+    "When the menu service was created."
+    created_at: DateTime!
+    "When the menu service was last updated."
+    updated_at: DateTime!
+
+    extras: [MenuServiceExtra!]! @hasMany(relation: "extras")
+}
+
+type MenuServiceExtra {
+    "Unique primary key."
+    id: ID!
+    "The menu service extra's name."
+    name: String!
+    "The menu service extra's description."
+    description: String!
+    "The extra choisable multiple times."
+    multiple: Boolean!
+    "When the menu service extra was created."
+    created_at: DateTime!
+    "When the menu service extra was last updated."
+    updated_at: DateTime!
+
+    options: [MenuServiceExtraOption!]! @hasMany(relation: "options")
+}
+
+type MenuServiceExtraOption {
+    "Unique primary key."
+    id: ID!
+    "The menu service extra option's name."
+    name: String!
+    "The menu service extra option's description."
+    description: String!
+    "The menu service extra option's price."
+    price: Float!
+    "The menu service extra option's duration."
+    duration: Int!
+    "When the menu service extra option was created."
+    created_at: DateTime!
+    "When the menu service extra option was last updated."
+    updated_at: DateTime!
+}
+
+enum OrderStatus {
+    "The order is pending."
+    PENDING @enum(value: "pending")
+    "The order is accepted."
+    ACCEPTED @enum(value: "accepted")
+    "The order is rejected."
+    REJECTED @enum(value: "rejected")
+    "The order is canceled."
+    CANCELED @enum(value: "canceled")
+    "The order is completed."
+    COMPLETED @enum(value: "completed")
+}
+
+type Order {
+    "Unique primary key."
+    id: ID!
+    "The order's status."
+    status: OrderStatus!
+    "The order's items."
+    items: [OrderItem!]! @hasMany(relation: "items")
+    "When the order was created."
+    created_at: DateTime!
+    "When the order was last updated."
+    updated_at: DateTime!
+}
+
+type OrderItem {
+    "Unique primary key."
+    id: ID!
+    "The order item's quantity."
+    quantity: Int!
+    "The order item's price."
+    price: Float!
+    "The order item option ids."
+    optionIds: [ID!]
+    "When the order item was created."
+    created_at: DateTime!
+    "When the order item was last updated."
+    updated_at: DateTime!
+    "The order item's service."
+    service: MenuService!
+}
+
+type Query
+type Mutation
+# type Subscription
+
+#import customers/*.graphql
+#import auth/*.graphql

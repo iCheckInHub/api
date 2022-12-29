@@ -1,0 +1,5 @@
+extend type Mutation @guard {
+    createOrder(input: OrderInput! @spread): Order
+        @create
+        @inject(context: "user.id", name: "user_id")
+}
