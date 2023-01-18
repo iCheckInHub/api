@@ -1,0 +1,250 @@
+type User {
+    "The unique primary key for the user."
+    id: ID!
+
+    "The user's name."
+    name: String!
+
+    "The user's unique email address."
+    email: String
+
+    "The user's avatar image."
+    avatar: String
+
+    "The date and time when the user's email was verified."
+    email_verified_at: DateTime
+
+    "The date and time when the user's account was created."
+    created_at: DateTime!
+
+    "The date and time when the user's account was last updated."
+    updated_at: DateTime!
+}
+
+type Employee {
+    "The unique primary key for the user."
+    id: ID!
+
+    "The user's name."
+    name: String!
+
+    "The employee's unique username"
+    username: String!
+
+    "The user's unique email address."
+    email: String
+
+    "The user's avatar image."
+    avatar: String
+    "The user's avatar image."
+    phone: String
+    "The user's avatar image."
+    address: String
+    "The user's avatar image."
+    gender: String
+    "The user's avatar image."
+    birthday: Date
+
+    "The date and time when the user's email was verified."
+    email_verified_at: DateTime
+
+    "The date and time when the user's account was created."
+    created_at: DateTime!
+
+    "The date and time when the user's account was last updated."
+    updated_at: DateTime!
+
+    "Access token for the employee."
+    token: String
+
+    active: Boolean!
+
+    placeIds: [ID!]
+
+    places: [Place!]! @belongsToMany
+}
+
+type Place {
+    "The unique primary key for the place."
+    id: ID!
+    "The place's name."
+    name: String!
+    "The place's description."
+    description: String
+    "The image representing the place."
+    image: String!
+    "The cover image for the place."
+    cover: String!
+    "The phone number for the place."
+    phone: String!
+    "The opening hours for the place."
+    hours: String!
+    "The address of the place."
+    address: String!
+    "The date and time when the place was created."
+    created_at: DateTime!
+    "The date and time when the place was last updated."
+    updated_at: DateTime!
+    "A boolean value indicating whether the place is active."
+    active: Boolean!
+    "A list of menus for the place."
+    menus: [Menu!]! @hasMany
+}
+
+type Menu {
+    "The unique primary key for the menu."
+    id: ID!
+    "The menu's name."
+    name: String!
+    "The menu's description."
+    description: String
+    "The image representing the menu."
+    image: String
+    "The date and time when the menu was created."
+    created_at: DateTime!
+    "The date and time when the menu was last updated."
+    updated_at: DateTime!
+    "A boolean value indicating whether the menu is active."
+    active: Boolean!
+    "The items on the menu."
+    items: [MenuItem!]! @hasMany(relation: "items")
+}
+
+type MenuItem {
+    "The unique primary key for the menu item."
+    id: ID!
+    "The name of the menu item."
+    name: String!
+    "A description of the menu item."
+    description: String
+    "An image representing the menu item."
+    image: String
+    "A boolean value indicating whether the menu item is active."
+    active: Boolean!
+    "The parent menu id."
+    parent_id: ID
+    "The date and time when the menu item was created."
+    created_at: DateTime!
+    "The date and time when the menu item was last updated."
+    updated_at: DateTime!
+    "A list of services offered for the menu item."
+    services: [MenuService!]! @hasMany(relation: "services")
+}
+
+type MenuService {
+    "The unique primary key for the menu service."
+    id: ID!
+    "The name of the menu service."
+    name: String!
+    "A description of the menu service."
+    description: String
+    "An image representing the menu service."
+    image: String!
+    "The price of the menu service."
+    price: Float!
+    "The duration of the menu service in minutes."
+    duration: Int!
+
+    place_id: ID!
+    "A boolean value indicating whether the menu service is a top choice."
+    top: Boolean!
+    "A boolean value indicating whether the service is active."
+    active: Boolean!
+    "The date and time when the menu service was created."
+    created_at: DateTime!
+    "The date and time when the menu service was last updated."
+    updated_at: DateTime!
+
+    "A list of extra options that can be added to the menu service."
+    extras: [MenuServiceExtra!]! @hasMany(relation: "extras")
+}
+
+type MenuServiceExtra {
+    "The unique primary key for the menu service extra."
+    id: ID!
+    "The name of the menu service extra."
+    name: String!
+    "A description of the menu service extra."
+    description: String
+    "A boolean value indicating whether the menu service extra can be chosen multiple times."
+    multiple: Boolean!
+    "A boolean value indicating whether the extra is active."
+    active: Boolean!
+    "The date and time when the menu service extra was created."
+    created_at: DateTime!
+    "The date and time when the menu service extra was last updated."
+    updated_at: DateTime!
+
+    "A list of options for the menu service extra."
+    options: [MenuServiceExtraOption!]! @hasMany(relation: "options")
+}
+
+type MenuServiceExtraOption {
+    "The unique primary key for the menu service extra option."
+    id: ID!
+    "The name of the menu service extra option."
+    name: String!
+    "A description of the menu service extra option."
+    description: String
+    "The price of the menu service extra option."
+    price: Float!
+    "The duration of the menu service extra option in minutes."
+    duration: Int!
+    "A boolean value indicating whether the extra option is active."
+    active: Boolean!
+    "The default option for the menu service extra."
+    default: Boolean!
+    "The date and time when the menu service extra option was created."
+    created_at: DateTime!
+    "The date and time when the menu service extra option was last updated."
+    updated_at: DateTime!
+}
+
+enum OrderStatus {
+    "The order is pending and has not yet been accepted or rejected."
+    pending
+    "The order has been accepted and is being processed."
+    confirmed
+    "The order has been canceled by the customer."
+    canceled
+    "The order has been completed and is no longer being processed."
+    completed
+}
+
+type Order {
+    "The unique primary key for the order."
+    id: ID!
+    "The order number."
+    no: String!
+    "The current status of the order."
+    status: OrderStatus!
+    "A list of items in the order."
+    items: [OrderItem!]! @hasMany(relation: "items")
+    "The date and time when the order was created."
+    created_at: DateTime!
+    "The date and time when the order was last updated."
+    updated_at: DateTime!
+    "The total price of the order."
+    total: Float!
+    "The user associated with the order."
+    user: User! @belongsTo
+    "The place associated with the order."
+    place: Place! @belongsTo
+}
+
+type OrderItem {
+    "The unique primary key for the order item."
+    id: ID!
+    "The quantity of the item ordered."
+    quantity: Int!
+    "The price of the item in the order."
+    price: Float!
+    "A list of IDs representing options chosen for the order item."
+    optionIds: [ID!]
+    "The date and time when the order item was created."
+    created_at: DateTime!
+    "The date and time when the order item was last updated."
+    updated_at: DateTime!
+    "The menu service associated with the order item."
+    service: MenuService!
+}

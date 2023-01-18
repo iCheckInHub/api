@@ -25,7 +25,6 @@ class PlaceFactory extends Factory
       'description' => $this->faker->text,
       'phone' => $this->faker->phoneNumber,
       'hours' => json_encode("{'mon':'8:00 - 17:00'}"),
-      'user_id' => $this->faker->numberBetween(1, 50),
     ];
   }
 }

@@ -20,7 +20,6 @@ return new class extends Migration
       $table->string('avatar')->nullable();
       $table->timestamp('email_verified_at')->nullable();
       $table->string('password');
-      $table->rememberToken();
       $table->timestamps();
     });
 
@@ -34,6 +33,23 @@ return new class extends Migration
       $table->timestamps();
       $table->foreignUuid('user_id');
       $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
+    });
+
+    Schema::create('employees', function (Blueprint $table) {
+      $table->uuid('id')->primary();
+      $table->string('name');
+      $table->string('email')->nullable()->unique();
+      $table->string('phone')->nullable();
+      $table->date('birthday')->nullable();
+      $table->enum('gender', ['male', 'female'])->nullable();
+      $table->string('address')->nullable();
+      $table->timestamp('email_verified_at')->nullable();
+      $table->string('avatar')->nullable();
+      $table->string('username')->nullable()->unique();
+      $table->string('password')->nullable();
+      $table->string('code', 6)->nullable();  // 6-digit code for login
+      $table->boolean('active')->default(true);
+      $table->timestamps();
     });
   }
 

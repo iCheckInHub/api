@@ -1,0 +1,20 @@
+extend type Mutation @guard(with: ["employee"]) {
+    saveMenu(input: MenuInput! @spread): Menu @upsert
+    saveMenuService(input: MenuServiceInput! @spread): MenuService @upsert
+    saveMenuServiceExtra(
+        input: MenuServiceExtraInput! @spread
+    ): MenuServiceExtra @upsert
+    saveMenuServiceExtraOption(
+        input: MenuServiceExtraOptionInput! @spread
+    ): MenuServiceExtraOption @upsert
+
+    deleteMenuServiceExtra(
+        input: MenuServiceExtraDeleteInput! @spread
+    ): MenuServiceExtra @delete
+
+    deleteMenuServiceExtraOption(
+        input: MenuServiceExtraOptionDeleteInput! @spread
+    ): MenuServiceExtraOption @delete
+
+    saveEmployee(input: EmployeeInput! @spread): Employee @upsert
+}

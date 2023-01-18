@@ -1,0 +1,34 @@
+extend type Query @guard(with: "employee") {
+    "Get place list of the current employee."
+    placeList: [Place!] @all(scopes: ["ofEmployee"])
+
+    "Get all places of the current employee."
+    places: [Place!] @paginate(scopes: ["ofEmployee"])
+
+    "Get a place of the current employee by its ID."
+    place(id: ID! @rules(apply: ["App\\Rules\\BelongsToEmployee"]) @eq): Place!
+        @find
+
+    orders(
+        search: String @like(key: "no")
+        orderBy: _ @orderBy(columns: ["no", "status", "created_at"])
+        status: OrderStatus @eq
+        place_id: ID @rules(apply: ["App\\Rules\\BelongsToEmployee"]) @eq
+    ): [Order!] @paginate(scopes: ["hasPlace"])
+
+    order(id: ID! @eq): Order! @find(scopes: ["hasPlace"])
+
+    menus(
+        place_id: ID! @rules(apply: ["App\\Rules\\BelongsToEmployee"]) @eq
+    ): [Menu!] @all(scopes: ["parentIsNull"])
+
+    service(id: ID! @eq): MenuService! @find(scopes: ["hasPlace"])
+
+    employees(
+        place_id: ID
+            @rules(apply: ["App\\Rules\\BelongsToEmployee"])
+            @whereRelation(relation: "places", column: "id")
+    ): [Employee!] @paginate(scopes: ["hasPlace"])
+
+    employee(id: ID! @eq): Employee! @find(scopes: ["hasPlace"])
+}

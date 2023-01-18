@@ -1,6 +1,9 @@
 <?php
 
+use App\Models\Employee;
+use App\Models\Order;
 use App\Models\Place;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,5 +21,20 @@ Route::get('/', function () {
   return view('welcome');
 });
 Route::get('/test', function () {
-  return Place::first()->menuItems;
+  $order = Order::first();
+
+  return $order->created_at->format('Y') . str_pad($order->no, 6, 0, STR_PAD_LEFT);
+});
+
+
+Route::get('/auth/user', function () {
+  $user = User::first();
+  $token = $user->createToken('authToken')->plainTextToken;
+  return $token;
+});
+
+Route::get('/auth/employee', function () {
+  $employee = Employee::first();
+  $token = $employee->createToken('authToken')->plainTextToken;
+  return $token;
 });

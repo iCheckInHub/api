@@ -12,6 +12,7 @@ return [
     |
     */
 
+
   'route' => [
     /*
          * The URI the endpoint responds to, e.g. mydomain.com/graphql.
@@ -70,7 +71,10 @@ return [
     */
 
   'schema' => [
-    'register' => base_path('graphql/schema.graphql'),
+    'register' => base_path('graphql/customer.graphql'),
+    'entries' => [
+      'pos' => base_path('graphql/pos.graphql')
+    ]
   ],
 
   /*

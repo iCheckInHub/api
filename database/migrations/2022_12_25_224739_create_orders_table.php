@@ -14,14 +14,20 @@ return new class extends Migration
   public function up()
   {
     Schema::create('orders', function (Blueprint $table) {
-      $table->uuid('id')->primary();
-      $table->enum('status', ['pending', 'confimed', 'canceled', 'completed'])->default('pending');
+      $table->uuid('id');
+      $table->bigInteger('no', true, true)->unique();
+      $table->enum('status', ['pending', 'confirmed', 'canceled', 'completed'])->default('pending');
       $table->foreignUuid('user_id');
       $table->foreignUuid('place_id');
-      $table->json('services')->nullable();
       $table->timestamps();
+      $table->decimal('total', 8, 2)->default(0);
       $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
       $table->foreign('place_id')->references('id')->on('places')->onDelete('restrict');
+    });
+
+    Schema::table('orders', function (Blueprint $table) {
+      $table->dropPrimary('orders_no_primary');
+      $table->primary('id');
     });
 
     Schema::create('order_items', function (Blueprint $table) {
@@ -29,7 +35,10 @@ return new class extends Migration
       $table->foreignUuid('order_id');
       $table->foreignUuid('service_id');
       $table->integer('quantity')->default(1);
+      $table->integer('duration')->default(0);
+      $table->decimal('price', 8, 2)->default(0);
       $table->json('optionIds')->nullable();
+      $table->json('data');
       $table->timestamps();
       $table->foreignUuid('place_id');
       $table->foreign('place_id')->references('id')->on('places')->onDelete('restrict');

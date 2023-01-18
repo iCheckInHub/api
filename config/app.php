@@ -185,7 +185,10 @@ return [
     /*
          * Package Service Providers...
          */
+    Spatie\Permission\PermissionServiceProvider::class,
+    App\Providers\MultiLighthouseServiceProvider::class, // <= add this line
     \Nuwave\Lighthouse\Subscriptions\SubscriptionServiceProvider::class,
+    \Nuwave\Lighthouse\WhereConditions\WhereConditionsServiceProvider::class,
 
     /*
          * Application Service Providers...
@@ -211,6 +214,7 @@ return [
 
   'aliases' => Facade::defaultAliases()->merge([
     // 'ExampleClass' => App\Example\ExampleClass::class,
+    // 'Redis' => Illuminate\Support\Facades\Redis::class,
   ])->toArray(),
 
 ];

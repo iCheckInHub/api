@@ -1,0 +1,12 @@
+extend type Query {
+    me: User @auth
+}
+
+extend type Mutation {
+    "Log in to a new session and get the user."
+    login(username: String! @eq(key: "email"), password: String!): Employee!
+        @login(guard: "employee")
+
+    "Log out of the current session."
+    logout: Employee @logout(guard: "employee")
+}

@@ -20,8 +20,8 @@ class MenuServiceFactory extends Factory
       'name' => $this->faker->name,
       'description' => $this->faker->text,
       'image' => $this->faker->imageUrl(480, 480, 'service', true),
-      'price' => $this->faker->randomFloat(2, 1, 20),
-      'duration' => $this->faker->numberBetween(0, 30),
+      'price' => $this->faker->randomFloat(2, 1, 10),
+      'duration' => $this->faker->numberBetween(0, 10),
       'top' => $this->faker->boolean,
     ];
   }

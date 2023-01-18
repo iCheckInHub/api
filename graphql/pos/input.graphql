@@ -1,0 +1,67 @@
+input MenuInput {
+    id: ID
+    name: String!
+    description: String
+    image: String
+    active: Boolean!
+    parent_id: ID
+    place_id: ID! @rules(apply: ["App\\Rules\\BelongsToEmployee"])
+}
+
+input MenuServiceInput {
+    id: ID
+    name: String!
+    description: String
+    image: String
+    price: Float!
+    duration: Int!
+    active: Boolean!
+    top: Boolean!
+    place_id: ID! @rules(apply: ["App\\Rules\\BelongsToEmployee"])
+}
+
+input MenuServiceExtraInput {
+    id: ID
+    name: String!
+    description: String
+    multiple: Boolean!
+    active: Boolean!
+    service_id: ID!
+    place_id: ID! @rules(apply: ["App\\Rules\\BelongsToEmployee"])
+}
+
+input MenuServiceExtraDeleteInput {
+    id: ID
+    place_id: ID! @rules(apply: ["App\\Rules\\BelongsToEmployee"])
+}
+
+input MenuServiceExtraOptionInput {
+    id: ID
+    name: String!
+    description: String
+    price: Float!
+    image: String
+    duration: Int
+    active: Boolean!
+    extra_id: ID!
+    place_id: ID! @rules(apply: ["App\\Rules\\BelongsToEmployee"])
+}
+
+input MenuServiceExtraOptionDeleteInput {
+    id: ID
+    place_id: ID! @rules(apply: ["App\\Rules\\BelongsToEmployee"])
+}
+
+input EmployeeInput {
+    id: ID
+    name: String!
+    email: String
+    phone: String
+    birthday: Date
+    gender: String
+    address: String
+    avatar: String
+    active: Boolean!
+    placeIds: [ID!]!
+        @rulesForArray(apply: ["min:1", "App\\Rules\\BelongsToEmployee"])
+}

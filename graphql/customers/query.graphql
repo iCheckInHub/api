@@ -4,4 +4,5 @@ extend type Query {
     menus(place_id: ID! @eq): [Menu!] @all(scopes: ["parentIsNull"])
     services(serviceIds: [ID!]! @in(key: "id")): [MenuService!] @all
     service(id: ID @eq): MenuService @find
+    orders: [Order!] @paginate
 }

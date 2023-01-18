@@ -21,11 +21,20 @@ return new class extends Migration
       $table->string('cover')->nullable();
       $table->string('description')->nullable();
       $table->string('phone')->nullable();
+      $table->boolean('active')->default(true);
       $table->json('hours')->nullable();
-      $table->foreignUuid('user_id');
       $table->timestamps();
-      $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
     });
+
+    Schema::create('employee_place', function (Blueprint $table) {
+      $table->foreignUuid('employee_id');
+      $table->foreignUuid('place_id');
+      $table->timestamps();
+      $table->foreign('place_id')->references('id')->on('places')->onDelete('restrict');
+      $table->foreign('employee_id')->references('id')->on('employees')->onDelete('restrict');
+      $table->primary(['employee_id', 'place_id']);
+    });
+
     Schema::create('menus', function (Blueprint $table) {
       $table->uuid('id')->primary();
       $table->string('name');
@@ -33,6 +42,7 @@ return new class extends Migration
       $table->string('image')->nullable();
       $table->foreignUuid('place_id');
       $table->foreignUuid('parent_id')->nullable();
+      $table->boolean('active')->default(true);
       $table->timestamps();
     });
     Schema::table('menus', function (Blueprint $table) {
@@ -47,6 +57,7 @@ return new class extends Migration
       $table->decimal('price', 8, 2);
       $table->integer('duration')->nullable();
       $table->boolean('top')->default(false);
+      $table->boolean('active')->default(true);
       $table->foreignUuid('menu_id')->nullable();
       $table->timestamps();
       $table->foreign('menu_id')->references('id')->on('menus')->onDelete('restrict');
@@ -60,6 +71,7 @@ return new class extends Migration
       $table->string('description')->nullable();
       $table->boolean('multiple')->default(false);
       $table->string('image')->nullable();
+      $table->boolean('active')->default(true);
       $table->foreignUuid('service_id')->nullable();
       $table->timestamps();
 
@@ -76,6 +88,7 @@ return new class extends Migration
       $table->decimal('price', 8, 2);
       $table->integer('duration')->nullable();
       $table->boolean('default')->default(false);
+      $table->boolean('active')->default(true);
       $table->foreignUuid('extra_id')->nullable();
       $table->timestamps();
 

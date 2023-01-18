@@ -20,7 +20,7 @@ class MenuServiceExtraOptionFactory extends Factory
       'name' => $this->faker->name,
       'description' => $this->faker->text,
       'image' => $this->faker->imageUrl(480, 480, 'extra', true, 'Faker'),
-      'price' => $this->faker->randomFloat(2, 1, 20),
+      'price' => $this->faker->randomFloat(2, 0, 5),
       'duration' => $this->faker->numberBetween(0, 30),
     ];
   }

@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class MenuService extends Model
@@ -27,6 +29,13 @@ class MenuService extends Model
     });
   }
 
+
+  public function scopeHasPlace(Builder $query, array $args)
+  {
+    $placeIds = Auth::user()->placeIds;
+    $query->whereIn('place_id', $placeIds);
+  }
+
   public function menu()
   {
     return $this->belongsTo(Menu::class, 'menu_id', 'id');
@@ -35,5 +44,10 @@ class MenuService extends Model
   public function extras()
   {
     return $this->hasMany(MenuServiceExtra::class, 'service_id', 'id');
+  }
+
+  public function options()
+  {
+    return $this->hasManyThrough(MenuServiceExtraOption::class, MenuServiceExtra::class, 'service_id', 'extra_id', 'id', 'id');
   }
 }
