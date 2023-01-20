@@ -20,32 +20,27 @@ class PlaceSeeder extends Seeder
    */
   public function run()
   {
-    Employee::factory()
-      ->count(rand(2, 5))
+    Place::factory()
+      ->count(rand(3, 5))
+      ->hasAttached(Employee::all()->random(10))
       ->has(
-        Place::factory()
-          ->count(rand(1, 2))
+        Menu::factory()->count(rand(2, 3))
           ->has(
-            Menu::factory()->count(rand(2, 3))
+            MenuItem::factory()->count(rand(2, 3))
               ->has(
-                MenuItem::factory()->count(rand(2, 3))
+                MenuService::factory()->count(rand(3, 7))
                   ->has(
-                    MenuService::factory()->count(rand(3, 7))
+                    MenuServiceExtra::factory()->count(rand(2, 3))
                       ->has(
-                        MenuServiceExtra::factory()->count(rand(2, 3))
-                          ->has(
-                            MenuServiceExtraOption::factory()->count(rand(2, 3)),
-                            'options'
-                          ),
-                        'extras'
+                        MenuServiceExtraOption::factory()->count(rand(2, 3)),
+                        'options'
                       ),
-                    'services'
+                    'extras'
                   ),
-                'items'
+                'services'
               ),
+            'items'
           ),
-        'places'
-      )
-      ->create();
+      )->create();
   }
 }

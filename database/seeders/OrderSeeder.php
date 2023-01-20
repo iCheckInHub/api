@@ -2,10 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Customer;
+use App\Models\Employee;
 use App\Models\Order;
 use App\Models\Place;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 
@@ -20,13 +21,11 @@ class OrderSeeder extends Seeder
   {
     Order::factory()->count(100)
       ->state(new Sequence(
-        fn ($sequence) => [
-          'user_id' => User::all()->random()->id,
-          'place_id' => Place::all()->random()->id,
-        ],
+        ['status' => 'pending'],
+        ['status' => 'confirmed'],
+        ['status' => 'canceled'],
+        ['status' => 'completed'],
       ))
-      // ->for(User::all()->random(), 'user')
-      // ->for(Place::all()->random(), 'place')
       ->hasItems(rand(3, 5))
       ->create();
   }

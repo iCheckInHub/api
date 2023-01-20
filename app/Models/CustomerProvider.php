@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserProvider extends Model
+class CustomerProvider extends Model
 {
   use HasFactory;
 
@@ -18,8 +17,8 @@ class UserProvider extends Model
     'avatar',
   ];
 
-  public function user()
+  public function customer()
   {
-    return $this->belongsTo(User::class);
+    return $this->belongsTo(Customer::class);
   }
 }

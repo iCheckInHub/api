@@ -24,6 +24,11 @@ class EmployeeFactory extends Factory
       'password' => Hash::make('123456'),
       'avatar' => $this->faker->imageUrl(200, 200),
       'code' => $this->faker->unique()->randomNumber(6),
+      'phone' => $this->faker->unique()->phoneNumber,
+      'address' => $this->faker->address,
+      'birthday' => $this->faker->dateTimeBetween('-30 years', '-18 years'),
+      'gender' => $this->faker->randomElement(['male', 'female']),
+      'username' => $this->faker->unique()->userName,
     ];
   }
 }

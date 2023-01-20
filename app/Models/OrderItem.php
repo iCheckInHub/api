@@ -67,6 +67,11 @@ class OrderItem extends Model
     return $this->belongsTo(Order::class, 'order_id', 'id');
   }
 
+  public function employee(): BelongsTo
+  {
+    return $this->belongsTo(Employee::class, 'employee_id', 'id');
+  }
+
   public function service(): BelongsTo
   {
     return $this->belongsTo(MenuService::class, 'service_id', 'id');

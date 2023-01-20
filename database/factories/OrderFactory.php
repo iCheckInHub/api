@@ -2,7 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Models\Customer;
+use App\Models\Employee;
 use App\Models\Order;
+use App\Models\Place;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,6 +21,9 @@ class OrderFactory extends Factory
   public function definition()
   {
     return [
+      'customer_id' => Customer::inRandomOrder()->first()->id,
+      'place_id' => Place::inRandomOrder()->first()->id,
+      'employee_id' => Employee::role('employee')->inRandomOrder()->first()->id,
       'status' => $this->faker->randomElement(['pending', 'confirmed', 'canceled', 'completed']),
     ];
   }

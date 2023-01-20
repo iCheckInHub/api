@@ -12,10 +12,11 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class Employee extends Authenticatable
 {
-  use HasUuids, HasApiTokens, HasFactory, Notifiable;
+  use HasUuids, HasApiTokens, HasFactory, Notifiable, HasRoles;
 
   /**
    * The attributes that should be cast to native types.
@@ -30,7 +31,6 @@ class Employee extends Authenticatable
 
   public function scopeHasPlace(Builder $query, array $args)
   {
-
     DB::enableQueryLog();
     $placeIds = Auth::user()->placeIds;
     $query->whereRelation('places', fn ($place) => $place->whereIn('id', $placeIds));

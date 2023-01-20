@@ -3,8 +3,8 @@ scalar DateTime
     @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
 scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
 
-#import types.graphql
-#import pos/*.graphql
-
 type Query
 type Mutation
+
+#import types.graphql
+#import pos/*.graphql

@@ -26,6 +26,6 @@ class Place extends Model
 
   public function employees(): BelongsToMany
   {
-    return $this->belongsToMany(Employee::class, 'employee_place', 'place_id', 'employee_id');
+    return $this->belongsToMany(Employee::class, 'employee_place', 'place_id', 'employee_id')->withTimestamps();
   }
 }

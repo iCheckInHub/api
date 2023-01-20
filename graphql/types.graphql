@@ -21,6 +21,35 @@ type User {
     updated_at: DateTime!
 }
 
+type Customer {
+    "The unique primary key for the user."
+    id: ID!
+
+    "The user's name."
+    name: String!
+
+    "The user's unique email address."
+    email: String
+
+    "The user's avatar image."
+    avatar: String
+
+    "The user's avatar image."
+    phone: String
+
+    "The user's avatar image."
+    birthday: Date
+
+    "Customer gender."
+    gender: String
+
+    "The date and time when the user's account was created."
+    created_at: DateTime!
+
+    "The date and time when the user's account was last updated."
+    updated_at: DateTime!
+}
+
 type Employee {
     "The unique primary key for the user."
     id: ID!
@@ -36,12 +65,16 @@ type Employee {
 
     "The user's avatar image."
     avatar: String
+
     "The user's avatar image."
     phone: String
+
     "The user's avatar image."
     address: String
+
     "The user's avatar image."
     gender: String
+
     "The user's avatar image."
     birthday: Date
 
@@ -57,10 +90,13 @@ type Employee {
     "Access token for the employee."
     token: String
 
+    "A boolean value indicating whether the employee is active."
     active: Boolean!
 
+    "A list of place ids offered by the employee."
     placeIds: [ID!]
 
+    "A list of places offered by the employee."
     places: [Place!]! @belongsToMany
 }
 
@@ -144,7 +180,7 @@ type MenuService {
     price: Float!
     "The duration of the menu service in minutes."
     duration: Int!
-
+    "The place id for the menu service."
     place_id: ID!
     "A boolean value indicating whether the menu service is a top choice."
     top: Boolean!
@@ -154,7 +190,6 @@ type MenuService {
     created_at: DateTime!
     "The date and time when the menu service was last updated."
     updated_at: DateTime!
-
     "A list of extra options that can be added to the menu service."
     extras: [MenuServiceExtra!]! @hasMany(relation: "extras")
 }
@@ -174,7 +209,6 @@ type MenuServiceExtra {
     created_at: DateTime!
     "The date and time when the menu service extra was last updated."
     updated_at: DateTime!
-
     "A list of options for the menu service extra."
     options: [MenuServiceExtraOption!]! @hasMany(relation: "options")
 }
@@ -227,7 +261,9 @@ type Order {
     "The total price of the order."
     total: Float!
     "The user associated with the order."
-    user: User! @belongsTo
+    customer: Customer! @belongsTo
+    "The employee associated with the order."
+    employee: Employee @belongsTo
     "The place associated with the order."
     place: Place! @belongsTo
 }
@@ -247,4 +283,6 @@ type OrderItem {
     updated_at: DateTime!
     "The menu service associated with the order item."
     service: MenuService!
+    "The employee associated with the order item."
+    employee: Employee @belongsTo
 }

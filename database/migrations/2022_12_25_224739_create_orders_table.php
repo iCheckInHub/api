@@ -17,11 +17,13 @@ return new class extends Migration
       $table->uuid('id');
       $table->bigInteger('no', true, true)->unique();
       $table->enum('status', ['pending', 'confirmed', 'canceled', 'completed'])->default('pending');
-      $table->foreignUuid('user_id');
+      $table->foreignUuid('customer_id');
+      $table->foreignUuid('employee_id')->nullable();
       $table->foreignUuid('place_id');
       $table->timestamps();
       $table->decimal('total', 8, 2)->default(0);
-      $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
+      $table->foreign('customer_id')->references('id')->on('customers')->onDelete('restrict');
+      $table->foreign('employee_id')->references('id')->on('employees')->onDelete('restrict');
       $table->foreign('place_id')->references('id')->on('places')->onDelete('restrict');
     });
 
@@ -34,13 +36,16 @@ return new class extends Migration
       $table->uuid('id')->primary();
       $table->foreignUuid('order_id');
       $table->foreignUuid('service_id');
+      $table->foreignUuid('employee_id')->nullable();
       $table->integer('quantity')->default(1);
       $table->integer('duration')->default(0);
       $table->decimal('price', 8, 2)->default(0);
       $table->json('optionIds')->nullable();
       $table->json('data');
+      $table->enum('status', ['pending', 'confirmed', 'canceled', 'completed'])->default('pending');
       $table->timestamps();
       $table->foreignUuid('place_id');
+      $table->foreign('employee_id')->references('id')->on('employees')->onDelete('restrict');
       $table->foreign('place_id')->references('id')->on('places')->onDelete('restrict');
       $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
       $table->foreign('service_id')->references('id')->on('menu_services')->onDelete('restrict');

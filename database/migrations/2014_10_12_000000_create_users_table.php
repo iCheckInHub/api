@@ -23,7 +23,20 @@ return new class extends Migration
       $table->timestamps();
     });
 
-    Schema::create('user_providers', function (Blueprint $table) {
+    Schema::create('customers', function (Blueprint $table) {
+      $table->uuid('id')->primary();
+      $table->string('name');
+      $table->string('email')->unique();
+      $table->string('avatar')->nullable();
+      $table->string('phone')->nullable();
+      $table->date('birthday')->nullable();
+      $table->enum('gender', ['male', 'female'])->nullable();
+      $table->timestamp('email_verified_at')->nullable();
+      $table->string('password');
+      $table->timestamps();
+    });
+
+    Schema::create('customer_providers', function (Blueprint $table) {
       $table->string('id');
       $table->string('provider');
       $table->string('name');
@@ -31,8 +44,8 @@ return new class extends Migration
       $table->string('avatar')->nullable();
       $table->primary(['provider', 'id']);
       $table->timestamps();
-      $table->foreignUuid('user_id');
-      $table->foreign('user_id')->references('id')->on('users')->onDelete('restrict');
+      $table->foreignUuid('customer_id');
+      $table->foreign('customer_id')->references('id')->on('customers')->onDelete('restrict');
     });
 
     Schema::create('employees', function (Blueprint $table) {

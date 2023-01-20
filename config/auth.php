@@ -14,7 +14,7 @@ return [
     */
 
   'defaults' => [
-    'guard' => 'api',
+    'guard' => 'customer',
     'passwords' => 'users',
   ],
 
@@ -40,9 +40,14 @@ return [
       'driver' => 'session',
       'provider' => 'users',
     ],
-    'api' => [
+    'admin' => [
       'driver' => 'sanctum',
       'provider' => 'users',
+      'hash' => false,
+    ],
+    'customer' => [
+      'driver' => 'sanctum',
+      'provider' => 'customers',
       'hash' => false,
     ],
     'employee' => [
@@ -77,6 +82,10 @@ return [
     'employees' => [
       'driver' => 'eloquent',
       'model' => App\Models\Employee::class,
+    ],
+    'customers' => [
+      'driver' => 'eloquent',
+      'model' => App\Models\Customer::class,
     ],
   ],
 
