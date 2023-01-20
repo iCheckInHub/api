@@ -17,8 +17,15 @@ class OrderItem extends Model
 
   protected $casts = [
     'optionIds' => AsArrayObject::class,
-    'data' => AsArrayObject::class,
+    'data' => 'object',
   ];
+
+  protected function data(): Attribute
+  {
+    return new Attribute(
+      get: fn ($value) => json_decode($value, true),
+    );
+  }
 
   protected $touches = ['order'];
   /**
@@ -37,10 +44,10 @@ class OrderItem extends Model
       $service = $item->service;
       $options = $service->options->whereIn('id', $item->optionIds);
 
-      $item->data = json_encode([
+      $item->data = [
         'service' => $service->only(['id', 'name', 'price', 'image', 'duration']),
         'options' => $options->map->only(['id', 'name', 'price', 'image', 'duration']),
-      ]);
+      ];
       $item->duration = $service->duration + $options->sum('duration');
       $item->price = $service->price + $options->sum('price');
     });

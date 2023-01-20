@@ -283,6 +283,12 @@ type OrderItem {
     updated_at: DateTime!
     "The menu service associated with the order item."
     service: MenuService!
+    data: OrderItemData
     "The employee associated with the order item."
     employee: Employee @belongsTo
+}
+
+type OrderItemData {
+    service: MenuService
+    options: [MenuServiceExtraOption!]
 }
