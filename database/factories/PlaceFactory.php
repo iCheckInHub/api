@@ -18,12 +18,12 @@ class PlaceFactory extends Factory
   public function definition()
   {
     return [
-      'name' => $this->faker->name,
-      'address' => $this->faker->address,
-      'image' => $this->faker->imageUrl(640, 480, 'place', true),
-      'cover' => $this->faker->imageUrl(640, 480, 'place', true),
-      'description' => $this->faker->text,
-      'phone' => $this->faker->phoneNumber,
+      'name' => fake()->name,
+      'address' => fake()->address,
+      'image' => fake()->imageUrl(640, 480, 'place', true),
+      'cover' => fake()->imageUrl(640, 480, 'place', true),
+      'description' => fake()->text,
+      'phone' => fake()->e164PhoneNumber(),
       'hours' => json_encode("{'mon':'8:00 - 17:00'}"),
     ];
   }

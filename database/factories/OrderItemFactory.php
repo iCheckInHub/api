@@ -18,7 +18,7 @@ class OrderItemFactory extends Factory
   public function definition()
   {
     return [
-      'quantity' => $this->faker->numberBetween(1, 3),
+      'quantity' => fake()->numberBetween(1, 3),
       'service_id' => MenuService::all()->random()->id,
     ];
   }

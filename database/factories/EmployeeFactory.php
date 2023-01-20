@@ -18,17 +18,17 @@ class EmployeeFactory extends Factory
   public function definition()
   {
     return [
-      'name' => $this->faker->name,
-      'email' => $this->faker->unique()->safeEmail,
+      'name' => fake()->name,
+      'email' => fake()->unique()->safeEmail,
       'email_verified_at' => now(),
       'password' => Hash::make('123456'),
-      'avatar' => $this->faker->imageUrl(200, 200),
-      'code' => $this->faker->unique()->randomNumber(6),
-      'phone' => $this->faker->unique()->phoneNumber,
-      'address' => $this->faker->address,
-      'birthday' => $this->faker->dateTimeBetween('-30 years', '-18 years'),
-      'gender' => $this->faker->randomElement(['male', 'female']),
-      'username' => $this->faker->unique()->userName,
+      'avatar' => fake()->imageUrl(200, 200),
+      'code' => fake()->unique()->randomNumber(6),
+      'phone' => fake()->e164PhoneNumber(),
+      'address' => fake()->address,
+      'birthday' => fake()->dateTimeBetween('-30 years', '-18 years'),
+      'gender' => fake()->randomElement(['male', 'female']),
+      'username' => fake()->unique()->userName,
     ];
   }
 }

@@ -98,6 +98,8 @@ type Employee {
 
     "A list of places offered by the employee."
     places: [Place!]! @belongsToMany
+    "A list of places offered by the employee."
+    roles: [Role!]! @morphMany
 }
 
 type Place {
@@ -291,4 +293,10 @@ type OrderItem {
 type OrderItemData {
     service: MenuService
     options: [MenuServiceExtraOption!]
+}
+
+type Role {
+    id: ID!
+    name: String!
+    guard_name: String
 }

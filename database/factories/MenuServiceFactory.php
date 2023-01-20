@@ -17,12 +17,12 @@ class MenuServiceFactory extends Factory
   public function definition()
   {
     return [
-      'name' => $this->faker->name,
-      'description' => $this->faker->text,
-      'image' => $this->faker->imageUrl(480, 480, 'service', true),
-      'price' => $this->faker->randomFloat(2, 1, 10),
-      'duration' => $this->faker->numberBetween(0, 10),
-      'top' => $this->faker->boolean,
+      'name' => fake()->name,
+      'description' => fake()->text,
+      'image' => fake()->imageUrl(480, 480, 'service', true),
+      'price' => fake()->randomFloat(2, 1, 10),
+      'duration' => fake()->numberBetween(0, 10),
+      'top' => fake()->boolean,
     ];
   }
 }

@@ -1,5 +1,5 @@
 extend type Query {
-    me: User @auth(guard: "employee")
+    me: Employee @auth(guard: "employee")
 }
 
 extend type Mutation {

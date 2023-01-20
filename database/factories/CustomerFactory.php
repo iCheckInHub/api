@@ -23,7 +23,7 @@ class CustomerFactory extends Factory
       'email_verified_at' => now(),
       'password' => Hash::make('123456'),
       'avatar' => fake()->imageUrl(300, 300, 'people'),
-      'phone' => fake()->phoneNumber(),
+      'phone' => fake()->e164PhoneNumber(),
       'birthday' => fake()->dateTimeBetween('-50 years', '-18 years')->format('Y/m/d'),
       'gender' => fake()->randomElement(["male", "female"])
     ];

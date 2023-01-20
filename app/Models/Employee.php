@@ -13,10 +13,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Laravel\Scout\Searchable;
+use Laravel\Scout\Attributes\SearchUsingFullText;
+use Laravel\Scout\Attributes\SearchUsingPrefix;
+
 
 class Employee extends Authenticatable
 {
-  use HasUuids, HasApiTokens, HasFactory, Notifiable, HasRoles;
+  use HasUuids, HasApiTokens, HasFactory, Notifiable, HasRoles, Searchable;
 
   /**
    * The attributes that should be cast to native types.
@@ -27,6 +31,23 @@ class Employee extends Authenticatable
     'email_verified_at' => 'datetime',
     'birthday' => 'date',
   ];
+
+
+  /**
+   * Get the indexable data array for the model.
+   *
+   * @return array
+   */
+  #[SearchUsingPrefix(['email', 'phone'])]
+  public function toSearchableArray()
+  {
+    return [
+      'name' => $this->name,
+      'email' => $this->email,
+      'phone' => "+1" . $this->phone,
+    ];
+  }
+
 
 
   public function scopeHasPlace(Builder $query, array $args)
@@ -54,7 +75,6 @@ class Employee extends Authenticatable
   {
     return $this->places()->sync($value);
   }
-
 
   public function places(): BelongsToMany
   {

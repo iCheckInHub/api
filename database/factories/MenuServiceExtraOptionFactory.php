@@ -17,11 +17,11 @@ class MenuServiceExtraOptionFactory extends Factory
   public function definition()
   {
     return [
-      'name' => $this->faker->name,
-      'description' => $this->faker->text,
-      'image' => $this->faker->imageUrl(480, 480, 'extra', true, 'Faker'),
-      'price' => $this->faker->randomFloat(2, 0, 5),
-      'duration' => $this->faker->numberBetween(0, 30),
+      'name' => fake()->name,
+      'description' => fake()->text,
+      'image' => fake()->imageUrl(480, 480, 'extra', true, 'Faker'),
+      'price' => fake()->randomFloat(2, 0, 5),
+      'duration' => fake()->numberBetween(0, 30),
     ];
   }
 }

@@ -28,6 +28,7 @@ extend type Query @guard(with: "employee") {
         place_id: ID
             @rules(apply: ["App\\Rules\\BelongsToEmployee"])
             @whereRelation(relation: "places", column: "id")
+        search: String @search(key: "name")
     ): [Employee!] @paginate(scopes: ["hasPlace"])
 
     employee(id: ID! @eq): Employee! @find(scopes: ["hasPlace"])

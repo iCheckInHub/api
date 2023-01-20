@@ -17,9 +17,9 @@ class MenuFactory extends Factory
   public function definition()
   {
     return [
-      'name' => $this->faker->name,
-      'description' => $this->faker->text,
-      'image' => $this->faker->imageUrl(640, 480, 'menu', true),
+      'name' => fake()->name,
+      'description' => fake()->text,
+      'image' => fake()->imageUrl(640, 480, 'menu', true),
     ];
   }
 }
