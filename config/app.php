@@ -189,6 +189,7 @@ return [
     App\Providers\MultiLighthouseServiceProvider::class, // <= add this line
     \Nuwave\Lighthouse\Subscriptions\SubscriptionServiceProvider::class,
     \Nuwave\Lighthouse\WhereConditions\WhereConditionsServiceProvider::class,
+    \Nuwave\Lighthouse\Scout\ScoutServiceProvider::class,
 
     /*
          * Application Service Providers...

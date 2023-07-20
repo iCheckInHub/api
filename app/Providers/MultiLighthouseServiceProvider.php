@@ -20,6 +20,7 @@ class MultiLighthouseServiceProvider extends ServiceProvider
       if (!$schema) {
         return; // no entry defined
       }
+
       config()->set('lighthouse.schema.register', $path);
       $this->schemaResolved = true;
     });
@@ -29,6 +30,7 @@ class MultiLighthouseServiceProvider extends ServiceProvider
       if (!$schema) {
         return;
       }
+      dd($schema);
       static::patchCacheConfig($schema);
       $this->cacheResolved = true;
     });

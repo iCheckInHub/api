@@ -20,7 +20,7 @@ class UserFactory extends Factory
   {
     return [
       'name' => fake()->name(),
-      'email' => fake()->unique()->safeEmail(),
+      'email' => fake()->unique()->userName . '@icheckin.com',
       'email_verified_at' => now(),
       'password' => Hash::make('123456'),
       'avatar' => fake()->imageUrl(300, 300, 'people'),

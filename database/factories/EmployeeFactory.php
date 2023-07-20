@@ -19,7 +19,7 @@ class EmployeeFactory extends Factory
   {
     return [
       'name' => fake()->name,
-      'email' => fake()->unique()->safeEmail,
+      'email' => fake()->unique()->userName . '@employee.com',
       'email_verified_at' => now(),
       'password' => Hash::make('123456'),
       'avatar' => fake()->imageUrl(200, 200),

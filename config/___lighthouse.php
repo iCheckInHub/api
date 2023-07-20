@@ -1,7 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 return [
-  /*
+    /*
     |--------------------------------------------------------------------------
     | Route Configuration
     |--------------------------------------------------------------------------
@@ -12,57 +12,56 @@ return [
     |
     */
 
-
-  'route' => [
-    /*
+    'route' => [
+        /*
          * The URI the endpoint responds to, e.g. mydomain.com/graphql.
          */
-    'uri' => '/graphql',
+        'uri' => '/graphql',
 
-    /*
+        /*
          * Lighthouse creates a named route for convenient URL generation and redirects.
          */
-    'name' => 'graphql',
+        'name' => 'graphql',
 
-    /*
+        /*
          * Beware that middleware defined here runs before the GraphQL execution phase,
          * make sure to return spec-compliant responses in case an error is thrown.
          */
-    'middleware' => [
-      \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-      \Nuwave\Lighthouse\Http\Middleware\AcceptJson::class,
+        'middleware' => [
+            \Nuwave\Lighthouse\Http\Middleware\AcceptJson::class,
 
-      // Logs in a user if they are authenticated. In contrast to Laravel's 'auth'
-      // middleware, this delegates auth and permission checks to the field level.
-      \Nuwave\Lighthouse\Http\Middleware\AttemptAuthentication::class,
+            // Logs in a user if they are authenticated. In contrast to Laravel's 'auth'
+            // middleware, this delegates auth and permission checks to the field level.
+            \Nuwave\Lighthouse\Http\Middleware\AttemptAuthentication::class,
 
-      // Logs every incoming GraphQL query.
-      // \Nuwave\Lighthouse\Support\Http\Middleware\LogGraphQLQueries::class,
+            // Logs every incoming GraphQL query.
+            // \Nuwave\Lighthouse\Http\Middleware\LogGraphQLQueries::class,
+        ],
+
+        /*
+         * The `prefix`, `domain` and `where` configuration options are optional.
+         */
+        // 'prefix' => '',
+        // 'domain' => '',
+        // 'where' => [],
     ],
 
     /*
-         * The `prefix` and `domain` configuration options are optional.
-         */
-    // 'prefix' => '',
-    // 'domain' => '',
-  ],
-
-  /*
     |--------------------------------------------------------------------------
-    | Authentication Guard
+    | Authentication Guards
     |--------------------------------------------------------------------------
     |
-    | The guard to use for authenticating GraphQL requests, if needed.
+    | The guards to use for authenticating GraphQL requests, if needed.
     | Used in directives such as `@guard` or the `AttemptAuthentication` middleware.
-    | Falls back to the Laravel default if the defined guard is either `null` or not found.
+    | Falls back to the Laravel default if `null`.
     |
     */
 
-  'guards' => null,
+    'guards' => null,
 
-  /*
+    /*
     |--------------------------------------------------------------------------
-    | Schema Location
+    | Schema Path
     |--------------------------------------------------------------------------
     |
     | Path to your .graphql schema file.
@@ -70,14 +69,9 @@ return [
     |
     */
 
-  'schema' => [
-    'register' => base_path('graphql/customer.graphql'),
-    'entries' => [
-      'pos' => base_path('graphql/pos.graphql')
-    ]
-  ],
+    'schema_path' => base_path('graphql/schema.graphql'),
 
-  /*
+    /*
     |--------------------------------------------------------------------------
     | Schema Cache
     |--------------------------------------------------------------------------
@@ -88,20 +82,19 @@ return [
     |
     */
 
-
-  'schema_cache' => [
-    /*
+    'schema_cache' => [
+        /*
          * Setting to true enables schema caching.
          */
-    'enable' => env('LIGHTHOUSE_SCHEMA_CACHE_ENABLE', env('APP_ENV') !== 'local'),
+        'enable' => env('LIGHTHOUSE_SCHEMA_CACHE_ENABLE', env('APP_ENV') !== 'local'),
 
-    /*
+        /*
          * File path to store the lighthouse schema.
          */
-    'path' => env('LIGHTHOUSE_SCHEMA_CACHE_PATH', base_path('bootstrap/cache/lighthouse-schema.php')),
-  ],
+        'path' => env('LIGHTHOUSE_SCHEMA_CACHE_PATH', base_path('bootstrap/cache/lighthouse-schema.php')),
+    ],
 
-  /*
+    /*
     |--------------------------------------------------------------------------
     | Cache Directive Tags
     |--------------------------------------------------------------------------
@@ -109,9 +102,9 @@ return [
     | Should the `@cache` directive use a tagged cache?
     |
     */
-  'cache_directive_tags' => false,
+    'cache_directive_tags' => false,
 
-  /*
+    /*
     |--------------------------------------------------------------------------
     | Query Cache
     |--------------------------------------------------------------------------
@@ -120,25 +113,24 @@ return [
     |
     */
 
-  'query_cache' => [
-    /**
-     * Setting to true enables query caching.
-     */
-    'enable' => env('LIGHTHOUSE_QUERY_CACHE_ENABLE', true),
+    'query_cache' => [
+        /*
+         * Setting to true enables query caching.
+         */
+        'enable' => env('LIGHTHOUSE_QUERY_CACHE_ENABLE', true),
 
-    /**
-     * Allows using a specific cache store, uses the app's default if set to null.
-     */
-    'store' => env('LIGHTHOUSE_QUERY_CACHE_STORE', null),
+        /*
+         * Allows using a specific cache store, uses the app's default if set to null.
+         */
+        'store' => env('LIGHTHOUSE_QUERY_CACHE_STORE', null),
 
-    /**
-     * Duration in seconds the query should remain cached, null means forever.
-     */
-    'ttl' => env('LIGHTHOUSE_QUERY_CACHE_TTL', 24 * 60 * 60),
+        /*
+         * Duration in seconds the query should remain cached, null means forever.
+         */
+        'ttl' => env('LIGHTHOUSE_QUERY_CACHE_TTL', 24 * 60 * 60),
+    ],
 
-  ],
-
-  /*
+    /*
     |--------------------------------------------------------------------------
     | Namespaces
     |--------------------------------------------------------------------------
@@ -149,20 +141,20 @@ return [
     |
     */
 
-  'namespaces' => [
-    'models' => ['App', 'App\\Models'],
-    'queries' => 'App\\GraphQL\\Queries',
-    'mutations' => 'App\\GraphQL\\Mutations',
-    'subscriptions' => 'App\\GraphQL\\Subscriptions',
-    'types' => 'App\\GraphQL\\Types',
-    'interfaces' => 'App\\GraphQL\\Interfaces',
-    'unions' => 'App\\GraphQL\\Unions',
-    'scalars' => 'App\\GraphQL\\Scalars',
-    'directives' => 'App\\GraphQL\\Directives',
-    'validators' => 'App\\GraphQL\\Validators',
-  ],
+    'namespaces' => [
+        'models' => ['App', 'App\\Models'],
+        'queries' => 'App\\GraphQL\\Queries',
+        'mutations' => 'App\\GraphQL\\Mutations',
+        'subscriptions' => 'App\\GraphQL\\Subscriptions',
+        'types' => 'App\\GraphQL\\Types',
+        'interfaces' => 'App\\GraphQL\\Interfaces',
+        'unions' => 'App\\GraphQL\\Unions',
+        'scalars' => 'App\\GraphQL\\Scalars',
+        'directives' => 'App\\GraphQL\\Directives',
+        'validators' => 'App\\GraphQL\\Validators',
+    ],
 
-  /*
+    /*
     |--------------------------------------------------------------------------
     | Security
     |--------------------------------------------------------------------------
@@ -172,15 +164,15 @@ return [
     |
     */
 
-  'security' => [
-    'max_query_complexity' => \GraphQL\Validator\Rules\QueryComplexity::DISABLED,
-    'max_query_depth' => \GraphQL\Validator\Rules\QueryDepth::DISABLED,
-    'disable_introspection' => (bool) env('LIGHTHOUSE_SECURITY_DISABLE_INTROSPECTION', false)
-      ? \GraphQL\Validator\Rules\DisableIntrospection::ENABLED
-      : \GraphQL\Validator\Rules\DisableIntrospection::DISABLED,
-  ],
+    'security' => [
+        'max_query_complexity' => \GraphQL\Validator\Rules\QueryComplexity::DISABLED,
+        'max_query_depth' => \GraphQL\Validator\Rules\QueryDepth::DISABLED,
+        'disable_introspection' => (bool) env('LIGHTHOUSE_SECURITY_DISABLE_INTROSPECTION', false)
+            ? \GraphQL\Validator\Rules\DisableIntrospection::ENABLED
+            : \GraphQL\Validator\Rules\DisableIntrospection::DISABLED,
+    ],
 
-  /*
+    /*
     |--------------------------------------------------------------------------
     | Pagination
     |--------------------------------------------------------------------------
@@ -190,21 +182,21 @@ return [
     |
     */
 
-  'pagination' => [
-    /*
+    'pagination' => [
+        /*
          * Allow clients to query paginated lists without specifying the amount of items.
          * Setting this to `null` means clients have to explicitly ask for the count.
          */
-    'default_count' => 10,
+        'default_count' => null,
 
-    /*
+        /*
          * Limit the maximum amount of items that clients can request from paginated lists.
          * Setting this to `null` means the count is unrestricted.
          */
-    'max_count' => 50,
-  ],
+        'max_count' => null,
+    ],
 
-  /*
+    /*
     |--------------------------------------------------------------------------
     | Debug
     |--------------------------------------------------------------------------
@@ -232,9 +224,9 @@ return [
     |
     */
 
-  'debug' => env('LIGHTHOUSE_DEBUG', \GraphQL\Error\DebugFlag::INCLUDE_DEBUG_MESSAGE | \GraphQL\Error\DebugFlag::INCLUDE_TRACE),
+    'debug' => env('LIGHTHOUSE_DEBUG', \GraphQL\Error\DebugFlag::INCLUDE_DEBUG_MESSAGE | \GraphQL\Error\DebugFlag::INCLUDE_TRACE),
 
-  /*
+    /*
     |--------------------------------------------------------------------------
     | Error Handlers
     |--------------------------------------------------------------------------
@@ -245,14 +237,14 @@ return [
     |
     */
 
-  'error_handlers' => [
-    \Nuwave\Lighthouse\Execution\AuthenticationErrorHandler::class,
-    \Nuwave\Lighthouse\Execution\AuthorizationErrorHandler::class,
-    \Nuwave\Lighthouse\Execution\ValidationErrorHandler::class,
-    \Nuwave\Lighthouse\Execution\ReportingErrorHandler::class,
-  ],
+    'error_handlers' => [
+        \Nuwave\Lighthouse\Execution\AuthenticationErrorHandler::class,
+        \Nuwave\Lighthouse\Execution\AuthorizationErrorHandler::class,
+        \Nuwave\Lighthouse\Execution\ValidationErrorHandler::class,
+        \Nuwave\Lighthouse\Execution\ReportingErrorHandler::class,
+    ],
 
-  /*
+    /*
     |--------------------------------------------------------------------------
     | Field Middleware
     |--------------------------------------------------------------------------
@@ -263,18 +255,18 @@ return [
     |
     */
 
-  'field_middleware' => [
-    \Nuwave\Lighthouse\Schema\Directives\TrimDirective::class,
-    \Nuwave\Lighthouse\Schema\Directives\ConvertEmptyStringsToNullDirective::class,
-    \Nuwave\Lighthouse\Schema\Directives\SanitizeDirective::class,
-    \Nuwave\Lighthouse\Validation\ValidateDirective::class,
-    \Nuwave\Lighthouse\Schema\Directives\TransformArgsDirective::class,
-    \Nuwave\Lighthouse\Schema\Directives\SpreadDirective::class,
-    \Nuwave\Lighthouse\Schema\Directives\RenameArgsDirective::class,
-    \Nuwave\Lighthouse\Schema\Directives\DropArgsDirective::class,
-  ],
+    'field_middleware' => [
+        \Nuwave\Lighthouse\Schema\Directives\TrimDirective::class,
+        \Nuwave\Lighthouse\Schema\Directives\ConvertEmptyStringsToNullDirective::class,
+        \Nuwave\Lighthouse\Schema\Directives\SanitizeDirective::class,
+        \Nuwave\Lighthouse\Validation\ValidateDirective::class,
+        \Nuwave\Lighthouse\Schema\Directives\TransformArgsDirective::class,
+        \Nuwave\Lighthouse\Schema\Directives\SpreadDirective::class,
+        \Nuwave\Lighthouse\Schema\Directives\RenameArgsDirective::class,
+        \Nuwave\Lighthouse\Schema\Directives\DropArgsDirective::class,
+    ],
 
-  /*
+    /*
     |--------------------------------------------------------------------------
     | Global ID
     |--------------------------------------------------------------------------
@@ -284,9 +276,9 @@ return [
     |
     */
 
-  'global_id_field' => 'id',
+    'global_id_field' => 'id',
 
-  /*
+    /*
     |--------------------------------------------------------------------------
     | Persisted Queries
     |--------------------------------------------------------------------------
@@ -297,9 +289,9 @@ return [
     |
     */
 
-  'persisted_queries' => true,
+    'persisted_queries' => true,
 
-  /*
+    /*
     |--------------------------------------------------------------------------
     | Transactional Mutations
     |--------------------------------------------------------------------------
@@ -309,9 +301,9 @@ return [
     |
     */
 
-  'transactional_mutations' => true,
+    'transactional_mutations' => true,
 
-  /*
+    /*
     |--------------------------------------------------------------------------
     | Mass Assignment Protection
     |--------------------------------------------------------------------------
@@ -322,9 +314,9 @@ return [
     |
     */
 
-  'force_fill' => true,
+    'force_fill' => true,
 
-  /*
+    /*
     |--------------------------------------------------------------------------
     | Batchload Relations
     |--------------------------------------------------------------------------
@@ -334,9 +326,9 @@ return [
     |
     */
 
-  'batchload_relations' => true,
+    'batchload_relations' => true,
 
-  /*
+    /*
     |--------------------------------------------------------------------------
     | Shortcut Foreign Key Selection
     |--------------------------------------------------------------------------
@@ -347,42 +339,9 @@ return [
     |
     */
 
-  'shortcut_foreign_key_selection' => false,
+    'shortcut_foreign_key_selection' => false,
 
-  /*
-    |--------------------------------------------------------------------------
-    | Non-Null Pagination Results
-    |--------------------------------------------------------------------------
-    |
-    | If set to true, the generated result type of paginated lists will be marked
-    | as non-nullable. This is generally more convenient for clients, but will
-    | cause validation errors to bubble further up in the result.
-    |
-    | This setting will be removed and always behave as if it were true in v6.
-    |
-    */
-
-  'non_null_pagination_results' => false,
-
-  /*
-    |--------------------------------------------------------------------------
-    | Unbox BenSampo\Enum\Enum instances
-    |--------------------------------------------------------------------------
-    |
-    | If set to true, Lighthouse will extract the internal $value from instances of
-    | BenSampo\Enum\Enum before passing it to ArgBuilderDirective::handleBuilder().
-    |
-    | This setting will be removed and always behave as if it were false in v6.
-    |
-    | It is only here to preserve compatibility, e.g. when expecting the internal
-    | value to be passed to a scope when using @scope, but not needed due to Laravel
-    | calling the Enum's __toString() method automagically when used in a query.
-    |
-    */
-
-  'unbox_bensampo_enum_enum_instances' => true,
-
-  /*
+    /*
     |--------------------------------------------------------------------------
     | GraphQL Subscriptions
     |--------------------------------------------------------------------------
@@ -392,67 +351,65 @@ return [
     |
     */
 
-  'subscriptions' => [
-    /*
+    'subscriptions' => [
+        /*
          * Determines if broadcasts should be queued by default.
          */
-    'queue_broadcasts' => env('LIGHTHOUSE_QUEUE_BROADCASTS', true),
+        'queue_broadcasts' => env('LIGHTHOUSE_QUEUE_BROADCASTS', true),
 
-    /*
+        /*
          * Determines the queue to use for broadcasting queue jobs.
          */
-    'broadcasts_queue_name' => env('LIGHTHOUSE_BROADCASTS_QUEUE_NAME', null),
+        'broadcasts_queue_name' => env('LIGHTHOUSE_BROADCASTS_QUEUE_NAME', null),
 
-    /*
+        /*
          * Default subscription storage.
          *
          * Any Laravel supported cache driver options are available here.
          */
-    'storage' => env('LIGHTHOUSE_SUBSCRIPTION_STORAGE', 'redis'),
+        'storage' => env('LIGHTHOUSE_SUBSCRIPTION_STORAGE', 'redis'),
 
-    /*
+        /*
          * Default subscription storage time to live in seconds.
          *
          * Indicates how long a subscription can be active before it's automatically removed from storage.
          * Setting this to `null` means the subscriptions are stored forever. This may cause
          * stale subscriptions to linger indefinitely in case cleanup fails for any reason.
          */
-    'storage_ttl' => env('LIGHTHOUSE_SUBSCRIPTION_STORAGE_TTL', null),
+        'storage_ttl' => env('LIGHTHOUSE_SUBSCRIPTION_STORAGE_TTL', null),
 
-    /*
+        /*
          * Default subscription broadcaster.
          */
-    'broadcaster' => env('LIGHTHOUSE_BROADCASTER', 'pusher'),
+        'broadcaster' => env('LIGHTHOUSE_BROADCASTER', 'pusher'),
 
-    /*
+        /*
          * Subscription broadcasting drivers with config options.
          */
-    'broadcasters' => [
-      'log' => [
-        'driver' => 'log',
-      ],
-      'pusher' => [
-        'driver' => 'pusher',
-        'routes' => \Nuwave\Lighthouse\Subscriptions\SubscriptionRouter::class . '@pusher',
-        'connection' => 'pusher',
-      ],
-      'echo' => [
-        'driver' => 'echo',
-        'connection' => env('LIGHTHOUSE_SUBSCRIPTION_REDIS_CONNECTION', 'default'),
-        'routes' => \Nuwave\Lighthouse\Subscriptions\SubscriptionRouter::class . '@echoRoutes',
-      ],
-    ],
+        'broadcasters' => [
+            'log' => [
+                'driver' => 'log',
+            ],
+            'pusher' => [
+                'driver' => 'pusher',
+                'routes' => \Nuwave\Lighthouse\Subscriptions\SubscriptionRouter::class . '@pusher',
+                'connection' => 'pusher',
+            ],
+            'echo' => [
+                'driver' => 'echo',
+                'connection' => env('LIGHTHOUSE_SUBSCRIPTION_REDIS_CONNECTION', 'default'),
+                'routes' => \Nuwave\Lighthouse\Subscriptions\SubscriptionRouter::class . '@echoRoutes',
+            ],
+        ],
 
-    /*
+        /*
          * Should the subscriptions extension be excluded when the response has no subscription channel?
          * This optimizes performance by sending less data, but clients must anticipate this appropriately.
          */
-    'exclude_empty' => env('LIGHTHOUSE_SUBSCRIPTION_EXCLUDE_EMPTY', true),
-  ],
+        'exclude_empty' => env('LIGHTHOUSE_SUBSCRIPTION_EXCLUDE_EMPTY', true),
+    ],
 
-
-
-  /*
+    /*
     |--------------------------------------------------------------------------
     | Defer
     |--------------------------------------------------------------------------
@@ -461,23 +418,23 @@ return [
     |
     */
 
-  'defer' => [
-    /*
+    'defer' => [
+        /*
          * Maximum number of nested fields that can be deferred in one query.
          * Once reached, remaining fields will be resolved synchronously.
          * 0 means unlimited.
          */
-    'max_nested_fields' => 0,
+        'max_nested_fields' => 0,
 
-    /*
+        /*
          * Maximum execution time for deferred queries in milliseconds.
          * Once reached, remaining fields will be resolved synchronously.
          * 0 means unlimited.
          */
-    'max_execution_ms' => 0,
-  ],
+        'max_execution_ms' => 0,
+    ],
 
-  /*
+    /*
     |--------------------------------------------------------------------------
     | Apollo Federation
     |--------------------------------------------------------------------------
@@ -486,10 +443,10 @@ return [
     |
     */
 
-  'federation' => [
-    /*
+    'federation' => [
+        /*
          * Location of resolver classes when resolving the `_entities` field.
          */
-    'entities_resolver_namespace' => 'App\\GraphQL\\Entities',
-  ],
+        'entities_resolver_namespace' => 'App\\GraphQL\\Entities',
+    ],
 ];
